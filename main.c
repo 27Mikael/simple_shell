@@ -1,52 +1,50 @@
 #include "shell.h"
 
 /**
+ * handle_input - handles input from user
+ * Return: exits once ctrl + d is input
+*/
+void handle_input(void)
+{
+	char input[256];
+
+	if (fgets(input, sizeof(input), stdin) == NULL)
+	{
+		if (feof(stdin))
+		{
+			write(STDOUT_FILENO, "\n", 1); /*Output newline for Ctrl+D*/
+			exit(EXIT_SUCCESS); /*End of file (Ctrl+D) encountered*/
+		}
+		else
+		{
+			perror("fgets() error");
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	input[strcspn(input, "\n")] = '\0'; /*Remove trailing newline*/
+
+	if (strcmp(input, EXIT_COMMAND) == 0)
+		exit(EXIT_SUCCESS); /*Exit command received*/
+
+	execute_command(input); /*Parse and execute the command*/
+}
+
+/**
  * handle_user_input - handles input from user
  * Return: exits once ctrl + d is input
 */
 void handle_user_input(void)
 {
-	char input[256], cwd[PATH_MAX];
-	char username[LOGIN_NAME_MAX], hostname[HOST_NAME_MAX];
-
 	while (1)
 	{
-		if (isatty(STDIN_FILENO)) /* shell in interactive mode */
-		{
-			getcwd(cwd, sizeof(cwd)), getlogin_r(username, sizeof(username));
-			gethostname(hostname, sizeof(hostname));
+		if (isatty(STDIN_FILENO)) /*Shell in interactive mode*/
+			print_prompt();
 
-			write(STDOUT_FILENO, username, strlen(username));
-			write(STDOUT_FILENO, "@", 1);
-			write(STDOUT_FILENO, hostname, strlen(hostname));
-			write(STDOUT_FILENO, ":", 1);
-			write(STDOUT_FILENO, cwd, strlen(cwd));
-			write(STDOUT_FILENO, "$ ", 2);
-			fflush(stdout);
-		}
-
-		if (fgets(input, sizeof(input), stdin) == NULL)
-		{
-			if (feof(stdin))
-			{
-				write(STDOUT_FILENO, "\n", 1);/*Output newline for Ctrl+D*/
-				return; /*End of file (Ctrl+D) encountered*/
-			}
-			else
-			{
-				perror("fgets() error");
-				exit(EXIT_FAILURE);
-			}
-		}
-
-		input[strcspn(input, "\n")] = '\0'; /*Remove trailing newline*/
-
-		if (strcmp(input, EXIT_COMMAND) == 0)
-			exit(EXIT_SUCCESS); /*Exit command received*/
-
-		execute_command(input); /*Parse and execute the command*/
+		handle_input();
 	}
 }
+
 
 /**
  * parse_and_validate_command - takes user commands and validates it
