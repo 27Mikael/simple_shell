@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "shell.h": "c",
+        "local_lim.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}
