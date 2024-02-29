@@ -15,6 +15,9 @@
 #include <bits/local_lim.h>
 
 int parser(char **tokens, char *buffer, char *delimeter);
+void execute_command(char *input);
+int parse_and_validate_command(char *input, char *args[]);
+void handle_user_input(void);
 int shell(void);
 int main(void);
 
