@@ -16,6 +16,7 @@ To compile the shell, run:
 
 ```bash
 gcc -Wall -Werror -Wextra -pedantic *.c -o shell
+```
 
 To run the shell, execute the compiled binary:
 
