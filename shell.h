@@ -21,5 +21,4 @@ void handle_user_input(void);
 int shell(void);
 int main(void);
 
-
 #endif

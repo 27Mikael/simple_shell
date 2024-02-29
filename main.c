@@ -6,18 +6,30 @@
 */
 void handle_user_input(void)
 {
-	char input[256];
+	char input[256], cwd[PATH_MAX];
+	char username[LOGIN_NAME_MAX], hostname[HOST_NAME_MAX];
 
 	while (1)
 	{
-		printf("$ ");
-		fflush(stdout);
+		if (isatty(STDIN_FILENO)) /* shell in interactive mode */
+		{
+			getcwd(cwd, sizeof(cwd)), getlogin_r(username, sizeof(username));
+			gethostname(hostname, sizeof(hostname));
+
+			write(STDOUT_FILENO, username, strlen(username));
+			write(STDOUT_FILENO, "@", 1);
+			write(STDOUT_FILENO, hostname, strlen(hostname));
+			write(STDOUT_FILENO, ":", 1);
+			write(STDOUT_FILENO, cwd, strlen(cwd));
+			write(STDOUT_FILENO, "$ ", 2);
+			fflush(stdout);
+		}
 
 		if (fgets(input, sizeof(input), stdin) == NULL)
 		{
 			if (feof(stdin))
 			{
-				printf("\n"); /*Output newline for Ctrl+D*/
+				write(STDOUT_FILENO, "\n", 1);/*Output newline for Ctrl+D*/
 				return; /*End of file (Ctrl+D) encountered*/
 			}
 			else
@@ -32,8 +44,7 @@ void handle_user_input(void)
 		if (strcmp(input, EXIT_COMMAND) == 0)
 			exit(EXIT_SUCCESS); /*Exit command received*/
 
-		/*Parse and execute the command*/
-		execute_command(input);
+		execute_command(input); /*Parse and execute the command*/
 	}
 }
 
@@ -66,7 +77,7 @@ void execute_command(char *input)
 
 	if (!parse_and_validate_command(input, args))
 	{
-		printf("Invalid command format\n");
+		write(STDOUT_FILENO, "Invalid command format\n", 1);
 		return;
 	}
 

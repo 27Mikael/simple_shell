@@ -26,7 +26,7 @@ int shell(void)
 	/*shell runs in non-interactive mode*/
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		perror("getcdw() error");
+		perror("getcwd() error");
 		return (-1);
 	}
 
