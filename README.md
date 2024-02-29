@@ -42,21 +42,13 @@ Output from executable_file
 
 $ exit
 
-Contributing
+# Contributing
+Mikael Kanku
 
-Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
-
-    Fork the repository
-    Create your feature branch (git checkout -b feature/YourFeature)
-    Commit your changes (git commit -am 'Add some feature')
-    Push to the branch (git push origin feature/YourFeature)
-    Create a new Pull Request
-
-License
+# License
 
 This project is licensed under the MIT License.
 
-css
 
 
 This combined `README.md` provides a concise overview of the Simple Shell project, including its features, usage instructions, examples, contribution guidelines, and license information.
