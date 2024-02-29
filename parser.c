@@ -2,16 +2,15 @@
 
 /**
  * parser - parses user input
- * @token: user input
- * @delimeter: 
- * @buffer: 
- * 
+ * @tokens: user input
+ * @delimiter: used to seperate tokens
+ * @buffer: buffer for input
  * Return: 1 on success
 */
-int parser(char** tokens, char *buffer, char *delimiter)
+int parser(char **tokens, char *buffer, char *delimiter)
 {
 	int counter = 0;
-	char* token;
+	char *token;
 
 	token = strtok(buffer, delimiter);
 	while (token != NULL && counter < MAX_ARGS)

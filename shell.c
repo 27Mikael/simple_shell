@@ -2,10 +2,10 @@
 
 /**
  *shell - runs shell in interactive or non-interactive mode
- * 
- *  
+ *
+ *Return: 0 on success
 */
-int shell()
+int shell(void)
 {
 	char cwd[PATH_MAX];
 	char username[LOGIN_NAME_MAX];
@@ -38,7 +38,7 @@ int shell()
 
 	if (gethostname(hostname, sizeof(hostname)) != 0)
 	{
-		perror ("gethostname() error");
+		perror("gethostname() error");
 		return (-1);
 	}
 	printf("%s@%s:%s$ ", username, hostname, cwd);

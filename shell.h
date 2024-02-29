@@ -14,10 +14,9 @@
 #include <limits.h>
 #include <bits/local_lim.h>
 
-
-int parser(char** tokens, char* buffer, char* delimeter);
-int shell();
-int main();
+int parser(char **tokens, char *buffer, char *delimeter);
+int shell(void);
+int main(void);
 
 
 #endif
