@@ -6,44 +6,19 @@
 */
 void print_prompt(void)
 {
-    write(STDOUT_FILENO, "($)", 3);
-    fflush(stdout);
-}
+	char cwd[PATH_MAX], username[LOGIN_NAME_MAX], hostname[HOST_NAME_MAX];
 
+	getcwd(cwd, sizeof(cwd));
+	getlogin_r(username, sizeof(username));
+	gethostname(hostname, sizeof(hostname));
 
-/**
- * execute_command - parses non_interactive mode commands
- * @command: command to be parsed
- * Return: EXIT_SUCCESS upon success
-*/
-int execute_command(const char *command)
-{
-	pid_t pid = fork();
-
-	if (pid == -1)
-	{
-		perror("fork");
-		return (EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		if (execlp(command, command, NULL) == -1)
-		{
-			perror("execlp");
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		int status;
-
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("waitpid");
-			return (EXIT_FAILURE);
-		}
-	}
-	return (EXIT_SUCCESS);
+	write(STDOUT_FILENO, username, strlen(username));
+	write(STDOUT_FILENO, "@", 1);
+	write(STDOUT_FILENO, hostname, strlen(hostname));
+	write(STDOUT_FILENO, ":", 1);
+	write(STDOUT_FILENO, cwd, strlen(cwd));
+	write(STDOUT_FILENO, "$ ", 2);
+	fflush(stdout);
 }
 
 /**

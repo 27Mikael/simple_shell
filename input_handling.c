@@ -67,8 +67,9 @@ int parse_and_validate_command(char *input, char *args[])
 /**
  * execute_command - executes user commands
  * @input: user input
+ * Return: exit status of the command execution
 */
-void execute_command2(char *input)
+int execute_command(char *input)
 {
 	char *args[MAX_ARGS + 1];
 	pid_t pid;
@@ -76,10 +77,10 @@ void execute_command2(char *input)
 	if (!parse_and_validate_command(input, args))
 	{
 		write(STDOUT_FILENO, "Invalid command format\n", 1);
-		return;
+		return (EXIT_FAILURE);
 	}
 
-	/*Execute the command*/
+	/* Execute the command */
 	pid = fork();
 	if (pid == -1)
 	{
@@ -88,17 +89,21 @@ void execute_command2(char *input)
 	}
 	else if (pid == 0)
 	{
-		/*Child process*/
+		/* Child process */
 		execvp(args[0], args);
-		/*execvp() returns only if an error occurs*/
+		/* execvp() returns only if an error occurs */
 		perror("execvp() error");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		/*Parent process*/
+		/* Parent process */
 		int status;
 
 		waitpid(pid, &status, 0);
+
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
 	}
+	return (EXIT_SUCCESS);
 }
