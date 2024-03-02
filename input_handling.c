@@ -6,7 +6,7 @@
 */
 void handle_input(void)
 {
-	char input[256];
+	char input[512];
 
 	if (fgets(input, sizeof(input), stdin) == NULL)
 	{

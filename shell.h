@@ -22,6 +22,5 @@ int execute_command(char *input);
 int main(int argc, char *argv[]);
 void handle_user_input(void);
 void print_prompt(void);
-int shell(void);
 
 #endif
