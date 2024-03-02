@@ -17,7 +17,7 @@ void print_prompt(void)
 	write(STDOUT_FILENO, hostname, strlen(hostname));
 	write(STDOUT_FILENO, ":", 1);
 	write(STDOUT_FILENO, cwd, strlen(cwd));
-	write(STDOUT_FILENO, "$ ", 2);
+	write(STDOUT_FILENO, "$ ", 1);
 	fflush(stdout);
 }
 

@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #define MAX_ARGS 10
 #define MAX_PATH_LENGTH 512
