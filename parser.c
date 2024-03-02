@@ -11,6 +11,7 @@ int parser(char **tokens, char *buffer, char *delimiter)
 {
 	int counter = 0;
 	char *token;
+	int i;
 
 	token = strtok(buffer, delimiter);
 	while (token != NULL && counter < MAX_ARGS)
@@ -20,5 +21,11 @@ int parser(char **tokens, char *buffer, char *delimiter)
 		counter++;
 	}
 	tokens[counter] = NULL;
+
+	for (i = 0; i < counter; i++)
+	{
+	free(tokens[i]);
+	}
+
 	return (counter);
 }
