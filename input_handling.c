@@ -6,14 +6,15 @@
 */
 void handle_input(void)
 {
-	char input[512];
+	char input[MAX_LINE_LENGTH] = ""; /*Initialize input to an empty string*/
+	size_t input_length = strlen(input);
 
 	if (fgets(input, sizeof(input), stdin) == NULL)
 	{
 		if (feof(stdin))
 		{
-			write(STDOUT_FILENO, "\n", 1); /*Output newline for Ctrl+D*/
-			exit(EXIT_SUCCESS); /*End of file (Ctrl+D) encountered*/
+			printf("\n"); /* Output newline for Ctrl+D */
+			exit(EXIT_SUCCESS); /* End of file (Ctrl+D) encountered */
 		}
 		else
 		{
@@ -22,12 +23,17 @@ void handle_input(void)
 		}
 	}
 
-	input[strcspn(input, "\n")] = '\0'; /*Remove trailing newline*/
+	if (input_length > 0 && input[input_length - 1] == '\n')
+	{
+		input[input_length - 1] = '\0'; /* Remove trailing newline */
+	}
 
 	if (strcmp(input, EXIT_COMMAND) == 0)
-		exit(EXIT_SUCCESS); /*Exit command received*/
+	{
+		exit(EXIT_SUCCESS); /* Exit command received */
+	}
 
-	execute_command(input); /*Parse and execute the command*/
+	execute_command(input); /* Parse and execute the command */
 }
 
 /**
