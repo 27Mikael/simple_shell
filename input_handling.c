@@ -68,7 +68,7 @@ int parse_and_validate_command(char *input, char *args[])
  * execute_command - executes user commands
  * @input: user input
 */
-void execute_command(char *input)
+void execute_command2(char *input)
 {
 	char *args[MAX_ARGS + 1];
 	pid_t pid;
@@ -101,14 +101,4 @@ void execute_command(char *input)
 
 		waitpid(pid, &status, 0);
 	}
-}
-
-/**
- * main - entrance point of code
- * Return: 0 on success
-*/
-int main(void)
-{
-	handle_user_input();
-	return (0);
 }
